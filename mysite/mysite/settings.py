@@ -79,7 +79,7 @@ DATABASES = {
         "NAME": "sddb",
         "USER": "postgres",
         "PASSWORD": "sddbpass",
-        "HOST": "localhost",
+        "HOST": "db",
         "PORT": "5432",
     }
 }

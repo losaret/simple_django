@@ -42,6 +42,8 @@ USER appuser
 # Copy the source code into the container.
 COPY . .
 
+RUN [ "python", "mysite/manage.py", "makemigrations" ]
+# RUN [ "python", "mysite/manage.py", "migrate" ]
 # Expose the port that the application listens on.
 EXPOSE 8000
 
