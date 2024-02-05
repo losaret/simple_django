@@ -1,0 +1,16 @@
+{% load static %}
+{% load i18n %}
+<div class="container p-0">
+    <div class="card w-100 h-100 shadow-sm m-1">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <a href="/user/{{ card.user }}">{{ card.user }}</a>
+                <small class="text-muted">{{ card.created_date }}</small>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text" style="font-size: 20px;">{{ card.comment }}</p>
+            <p><img src="{{ card.card_image.url }}" height="350" ></p>
+        </div>
+    </div>
+</div>

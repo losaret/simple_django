@@ -13,6 +13,10 @@ services:
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
+    develop:
+      watch:
+        - action: rebuild
+          path: .
   db:
     image: postgres
     restart: always

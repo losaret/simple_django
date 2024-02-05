@@ -1,0 +1,24 @@
+{% extends 'vkusno/base_b5.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row m-3">
+    <form method="post" class = "form-inline mb-2" action="post/" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-outline-primary m-2" type="submit" value="post">Add</button>
+    </form>
+</div>
+
+<div class="accordion" id="accordionPanelsStayOpenExample">
+    {% for category in categories %}
+        {% include "vkusno/category_view.html"%}
+    {% endfor %}
+{% comment %}
+<div class="col-md-7">
+    {% for card in cards %}
+        {% include "vkusno/card_view.html"%}
+    {% endfor %}
+</div>
+{% endcomment %}
+{% endblock %}
