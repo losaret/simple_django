@@ -2,15 +2,46 @@
 {% load static %}
 {% block content %}
 
-<div class="row m-3">
-    <form method="post" class = "form-inline mb-2" action="post/" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-outline-primary m-2" type="submit" value="post">Add</button>
-    </form>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary m-3 bg-opacity-75" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Add product
+</button>
+  
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Product card</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="row m-3">
+            <form id="PublishForm" method="post" class = "form-inline mb-2" action="post/" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.comment }}
+                {{ form.card_image }}
+                <select class="form-select m-2" name="choice">
+                    <option value="vk">Delicious</option>
+                    <option value="ne">Tasteless</option>
+                </select>
+                <select class="form-select m-2" aria-label="Default select" name="category">
+                    {% for category in categories %}
+                        <option value="{{ category.name }}">{{ category.name }}</option>
+                    {% endfor %}    
+                </select>    
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-outline-primary m-2" form="PublishForm" type="submit" value="Update/">Add</button>
+    </div>
+    </div>
 </div>
-
-<div class="accordion" id="accordionPanelsStayOpenExample">
+</div>
+<!-- Category accordion -->
+<div class="accordion" id="accordionPanels">
     {% for category in categories %}
         {% include "vkusno/category_view.html"%}
     {% endfor %}

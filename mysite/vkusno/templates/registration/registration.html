@@ -1,0 +1,27 @@
+{% extends "vkusno/base_b5.html" %}
+
+{% block content %}
+
+<form method="post">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="username" class="form-label" >Username</label>
+    <input type="input" class="form-control" name="username"  id="InputUsername" style="width:300px" required>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label" >Email</label>
+    <input type="email" class="form-control" name="email"  id="InputEmail" style="width:300px" required>
+  </div>
+  <div class="mb-3">
+    <label for="InputPassword1" class="form-label">Password</label>
+    <input type="password" class="form-control" name="password1" id="InputPassword1" style="width:300px" required>
+  </div>
+  <div class="mb-3">
+    <label for="InputPassword1" class="form-label">Confirm password</label>
+    <input type="password" class="form-control" name="password2" id="InputPassword1" style="width:300px" required>
+  </div>
+  <button type="submit" action="{% url 'home' %}" class="btn btn-outline-primary" style="opacity: 1 !important;">Register</button>
+</form>
+
+
+{% endblock %}

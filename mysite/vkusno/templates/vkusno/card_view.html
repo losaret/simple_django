@@ -1,16 +1,27 @@
 {% load static %}
 {% load i18n %}
-<div class="container p-0">
-    <div class="card w-100 h-100 shadow-sm m-1">
-        <div class="card-header">
+<div class="container col-xl-4 col-md-6 p-0">
+    <div class="card shadow-sm m-2">
+        <div class="card-body p-0">
+            <p class="card-text text-center" style="font-size: 20px;">{{ card.comment }}</p>
+            <div class="d-flex align-items-center" style="height: 600px">
+                <img src="{{ card.card_image.url }}" class="img-fluid mx-auto d-block" style="max-height: 600px">
+            </div>
+        </div>
+        {% if card.choice == 'vk' %}
+            <div class="bg-success text-white bg-opacity-75 shadow-sm mx-auto rounded-4 m-2" style="width: 80%; height: 30px ">
+                <p class="text-center">Delicious</p>
+            </div>
+        {% else %}
+            <div class="bg-danger text-white bg-opacity-75 shadow-sm mx-auto rounded-4 m-2" style="width: 80%; height: 30px">
+                <p class="text-center" >Tasteless</p>
+            </div>
+        {% endif %}  
+        <div class="card-footer">
             <div class="d-flex justify-content-between">
                 <a href="/user/{{ card.user }}">{{ card.user }}</a>
                 <small class="text-muted">{{ card.created_date }}</small>
             </div>
-        </div>
-        <div class="card-body">
-            <p class="card-text" style="font-size: 20px;">{{ card.comment }}</p>
-            <p><img src="{{ card.card_image.url }}" height="350" ></p>
-        </div>
+        </div>        
     </div>
 </div>

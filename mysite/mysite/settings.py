@@ -34,13 +34,14 @@ CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0:1337"]
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'vkusno'
+    'vkusno',
+    'user_profile',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,7 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Auth settings
+LOGIN_REDIRECT_URL = '/'
+#LOGOUT_REDIRECT_URL = ''

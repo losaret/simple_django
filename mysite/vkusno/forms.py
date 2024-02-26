@@ -1,5 +1,6 @@
-from django import forms
 from .models import product_card
+from django.forms import ModelForm, TextInput, EmailInput, FileInput, CheckboxInput, Select
+
 
 # class CategoriesSelect(forms.Select):
 #     def create_option(
@@ -18,7 +19,19 @@ from .models import product_card
 #         fields = ['category']
 #         widgets = {"category":CategoriesSelect}
         
-class PublishForm(forms.ModelForm):
+class PublishForm(ModelForm):
     class Meta:
         model = product_card
-        fields = {'card_image', 'comment', 'choice', 'category'}
+        fields = {'card_image', 'comment', 'choice'}
+        widgets = {
+            'comment': TextInput(attrs={
+                'class': "form-control m-2",
+                'placeholder': "Name",
+            }),
+            'card_image': FileInput(attrs={
+                'class': "form-control m-2",
+            }), 
+            'choice': Select(attrs={
+                'class': "form-select m-2"
+            }),
+        }
