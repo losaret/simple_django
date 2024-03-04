@@ -2,6 +2,9 @@
 
 {% block content %}
 
+<h2> Registration </h2>
+
+{% comment %}
 <form method="post">
   {% csrf_token %}
   <div class="mb-3">
@@ -16,10 +19,32 @@
     <label for="InputPassword1" class="form-label">Password</label>
     <input type="password" class="form-control" name="password1" id="InputPassword1" style="width:300px" required>
   </div>
+  <p class="text-muted h-6">Your password can’t be too similar to your other personal information.</p>
+  <ul>
+    <li class="text-muted h-6">Your password must contain at least 8 characters.</li>
+    <li class="text-muted h-6">Your password can’t be a commonly used password.</li>
+    <li class="text-muted h-6">Your password can’t be entirely numeric.</li>
+  </ul>
   <div class="mb-3">
     <label for="InputPassword1" class="form-label">Confirm password</label>
     <input type="password" class="form-control" name="password2" id="InputPassword1" style="width:300px" required>
   </div>
+  <button type="submit" action="{% url 'home' %}" class="btn btn-outline-primary" style="opacity: 1 !important;">Register</button>
+</form>
+{% endcomment %}
+<form method="post">
+  {% csrf_token %}
+  {% for field in form %}
+    <p>
+      {{ field }}
+      {% if field.help_text %}
+        <small style="color: grey">{{ field.help_text }}</small>
+      {% endif %}
+      {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+      {% endfor %}
+    </p>
+  {% endfor %}
   <button type="submit" action="{% url 'home' %}" class="btn btn-outline-primary" style="opacity: 1 !important;">Register</button>
 </form>
 

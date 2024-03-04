@@ -6,7 +6,7 @@ from django.views.generic import View
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .models import product_card, categories
-from .forms import PublishForm
+from .forms import PublishCardForm, PublishCategoryForm
 from user_profile.models import ExtendUser
 
 # Create your views here.
@@ -22,13 +22,14 @@ class index(LoginRequiredMixin, View):
         categories_view = categories.objects.filter(query)
         params['cards'] = cards
         params['profile'] = userprofile
-        params['form'] = PublishForm()
+        params['card_form'] = PublishCardForm()
+        params['category_form'] = PublishCategoryForm()
         params['categories'] = categories_view
         return render(request, 'vkusno/self_profile.html', params)
     
 class Publishcard(LoginRequiredMixin, View):
     def post(self, request):
-        form = PublishForm(request.POST, request.FILES)
+        form = PublishCardForm(request.POST, request.FILES)
         if form.is_valid():
             userprofile = User.objects.get(username=request.user.username)
             image = request.FILES['card_image']
@@ -44,6 +45,22 @@ class Publishcard(LoginRequiredMixin, View):
                 choice = card_choice
             )
             published_card.save()
+        return HttpResponseRedirect('/')
+
+class Publishcategory(LoginRequiredMixin, View):
+    def post(self, request):
+        form = PublishCategoryForm(request.POST)
+        if form.is_valid():
+            userprofile = User.objects.get(username=request.user.username)
+            category_name = form.cleaned_data['name']
+            published_category = categories(
+                user = userprofile,
+                name = category_name
+            )
+            if categories.objects.filter(user=userprofile, name=category_name).exists():
+                return HttpResponseRedirect('/')
+            else:
+                published_category.save()
         return HttpResponseRedirect('/')
 
 def image_upload(request):

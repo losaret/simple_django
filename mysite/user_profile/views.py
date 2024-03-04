@@ -14,14 +14,15 @@ class RegistrationView(generic.CreateView):
 '''
 
 def Registration_view(request):
-    form = RegistrationForm(request.POST)
-    if form.is_valid():
-        form.save()
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password1')
-        user = authenticate(username=username, password=password)
-        login(request, user)
-        return redirect('home')
-    else:
+    if request.method == "GET":
         form = RegistrationForm()
+    else:
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('home')
     return render(request, 'registration/registration.html', {'form': form})

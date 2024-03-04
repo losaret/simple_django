@@ -2,25 +2,28 @@
 {% load static %}
 {% block content %}
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary m-3 bg-opacity-75" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+{% block allert %}
+{% endblock %}
+
+<!-- Add Product Button, trigger modal -->
+<button type="button" class="btn btn-primary m-3 bg-opacity-75" data-bs-toggle="modal" data-bs-target="#cardModal">
     Add product
 </button>
   
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Product Modal -->
+<div class="modal fade" id="cardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Product card</h5>
+        <h5 class="modal-title" id="cardModalLabel">Product card</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
         <div class="row m-3">
-            <form id="PublishForm" method="post" class = "form-inline mb-2" action="post/" enctype="multipart/form-data">
+            <form id="PublishCardForm" method="post" class = "form-inline mb-2" action="post_card/" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.comment }}
-                {{ form.card_image }}
+                {{ card_form.comment }}
+                {{ card_form.card_image }}
                 <select class="form-select m-2" name="choice">
                     <option value="vk">Delicious</option>
                     <option value="ne">Tasteless</option>
@@ -35,11 +38,42 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button class="btn btn-outline-primary m-2" form="PublishForm" type="submit" value="Update/">Add</button>
+        <button class="btn btn-outline-primary m-2" form="PublishCardForm" type="submit" value="Update/">Add</button>
     </div>
     </div>
 </div>
 </div>
+
+<!-- Add Category Button, trigger modal -->
+<button type="button" class="btn btn-primary m-3 bg-opacity-75" data-bs-toggle="modal" data-bs-target="#categoryModal">
+    Add category
+</button>
+
+<!-- Category Modal -->
+<div class="modal fade" id="categoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="categoryModalLabel">Category</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row m-3">
+                <form id="PublishCategoryForm" method="post" class = "form-inline my-2" action="post_category/" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ category_form.name }} 
+                </form>
+                <small class="text-muted ms-2">Name must be unique</small>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-outline-primary m-2" form="PublishCategoryForm" type="submit" value="Update/">Add</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
 <!-- Category accordion -->
 <div class="accordion" id="accordionPanels">
     {% for category in categories %}
