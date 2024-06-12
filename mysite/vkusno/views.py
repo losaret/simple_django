@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.files.storage import FileSystemStorage
-from django.views.generic import View
+from django.views.generic import View, DeleteView
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .models import product_card, categories
 from .forms import PublishCardForm, PublishCategoryForm
 from user_profile.models import ExtendUser
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -46,6 +47,12 @@ class Publishcard(LoginRequiredMixin, View):
             )
             published_card.save()
         return HttpResponseRedirect('/')
+
+class Deletecard(LoginRequiredMixin, DeleteView):
+    model = product_card
+    template_name = 'vkusno/card_delete.html'
+    success_url = reverse_lazy('home')
+            
 
 class Publishcategory(LoginRequiredMixin, View):
     def post(self, request):

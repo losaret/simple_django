@@ -1,0 +1,10 @@
+{% extends 'vkusno/base_b5.html' %}
+{% load static %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <h1>Are you sure you want to delete this card?</h1>
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a href="{% url 'home' %}" class="btn btn-primary">Cancel</a>
+</form>
+{% endblock %}

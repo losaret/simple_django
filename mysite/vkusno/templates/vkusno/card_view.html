@@ -20,6 +20,7 @@
         <div class="card-footer">
             <div class="d-flex justify-content-between">
                 <a href="/user/{{ card.user }}">{{ card.user }}</a>
+                <a href="{% url 'card_delete' card.pk %}">Delete</a>
                 <small class="text-muted">{{ card.created_date }}</small>
             </div>
         </div>        
