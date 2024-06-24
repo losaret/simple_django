@@ -2,6 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django
 
 #app ignore
+install.txt
 db/
 .env.dev
 .env.prod
