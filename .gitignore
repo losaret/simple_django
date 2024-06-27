@@ -9,6 +9,7 @@ db/
 .env.prod.db
 .env.staging
 .env.staging.proxy-companion
+.env.prod.proxy-companion
 ### Django ###
 *.log
 *.pot

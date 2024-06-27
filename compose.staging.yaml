@@ -9,7 +9,7 @@ services:
       db:
         condition: service_healthy
     env_file:
-      - ./.env.prod
+      - ./.env.staging
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
@@ -58,10 +58,13 @@ services:
     depends_on:
       - nginx-proxy
 volumes:
-  postgres_data:
+  db-data:
   static_volume:
   media_volume:
   certs:
   html:
   vhost:
   acme:
+secrets:
+  db-password:
+    file: db/password.txt
