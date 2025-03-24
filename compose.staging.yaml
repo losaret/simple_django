@@ -9,7 +9,7 @@ services:
       db:
         condition: service_healthy
     env_file:
-      - ./.env.staging
+      - ./.env.prod
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
