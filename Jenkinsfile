@@ -21,15 +21,20 @@ pipeline {
                         remote.host = env.DOCKER__HOST_IP
                         remote.user = userName
                         remote.identityFile = identity
-                        def remoteStatus = sshCommand(remote: remote, command: "cd ${REMOTE_REPO_PATH} && git status -s")
+                        def remoteStatus = sshCommand(remote: remote, command: """
+                            cd ${env.REMOTE_REPO_PATH} && \
+                            git fetch origin && \
+                            git rev-list --count HEAD..@{u}
+                        """
+                        ).trim()
+                        env.GIT_BEHIND = remoteStatus > 0 ? '1' : '0'
+                        echo "GIT_BEHIND = ${env.GIT_BEHIND}"
                         // Если есть изменения, выводим их в лог
-                        if (remoteStatus) {
-                            echo "There are changes in the remote repository: ${remoteStatus}"
-                        } else {
+                        if (env.GIT_BEHIND == '0' ) {
                             echo "No changes detected in the remote repository."
+                        } else {
+                            echo "There are changes detected in the remote repository."
                         }
-                        // Сохраняем статус в переменную
-                        env.CHANGES_DETECTED = remoteStatus ? 'true' : 'false'
                     }
                 }
             }
@@ -40,7 +45,7 @@ pipeline {
                 sshagent(['server-ssh']){
                     script {
                         // Используем docker.withServer для подключения к удаленному Docker-серверу
-                        docker.withServer('ssh://${env.DOCKER_HOST}', 'server-ssh') {
+                        docker.withServer("ssh://${env.DOCKER_HOST}", 'server-ssh') {
                             // Проверяем подключение к удаленному Docker-серверу
                             try {
                                 echo 'Connected to Docker server at ${env.DOCKER_HOST}'
