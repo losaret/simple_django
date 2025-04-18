@@ -9,6 +9,7 @@ from .models import product_card, categories
 from .forms import PublishCardForm, PublishCategoryForm
 from user_profile.models import ExtendUser
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 
@@ -69,7 +70,8 @@ class Publishcategory(LoginRequiredMixin, View):
             else:
                 published_category.save()
         return HttpResponseRedirect('/')
-
+    
+@require_POST
 def image_upload(request):
     if request.method == "POST" and request.FILES["image_file"]:
         image_file = request.FILES["image_file"]

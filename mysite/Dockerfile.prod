@@ -5,7 +5,7 @@
 # https://docs.docker.com/go/dockerfile-reference/
 
 ARG PYTHON_VERSION=3.12.1
-FROM python:${PYTHON_VERSION}-slim as base
+FROM python:${PYTHON_VERSION}-slim AS base
 
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -17,10 +17,12 @@ ENV PYTHONUNBUFFERED=1
 # create the appropriate directories
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
-RUN mkdir -p $APP_HOME
-RUN mkdir $APP_HOME/staticfiles
-RUN mkdir $APP_HOME/mediafiles
-RUN mkdir $APP_HOME/migrations
+
+RUN mkdir -p "$APP_HOME" \
+&& mkdir "$APP_HOME"/staticfiles \
+&& mkdir "$APP_HOME"/mediafiles \
+&& mkdir "$APP_HOME"/migrations
+
 WORKDIR $APP_HOME
 
 # Create a non-privileged user that the app will run under.
@@ -43,7 +45,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     python3 -m pip install -r requirements.txt
 
 
-RUN chown appuser -R $APP_HOME
+RUN chown appuser -R "$APP_HOME"
 
 # Switch to the non-privileged user to run the application.
 USER appuser
