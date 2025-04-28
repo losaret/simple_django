@@ -5,56 +5,12 @@
 {% block allert %}
 {% endblock %}
 
-<!-- Add Product Button, trigger modal -->
-<button type="button" class="btn btn-primary m-3 bg-opacity-75" data-bs-toggle="modal" data-bs-target="#cardModal">
-    Add product
-</button>
-  
-<!-- Product Modal -->
-<div class="modal fade" id="cardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-    <div class="modal-header">
-        <h5 class="modal-title" id="cardModalLabel">Product card</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-        <div class="row m-3">
-            <form id="PublishCardForm" method="post" class = "form-inline mb-2" action="post_card/" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ card_form.comment }}
-                {{ card_form.card_image }}
-                <select class="form-select m-2" name="choice">
-                    <option value="vk">Delicious</option>
-                    <option value="ne">Tasteless</option>
-                </select>
-                <select class="form-select m-2" aria-label="Default select" name="category">
-                    {% for category in categories %}
-                        <option value="{{ category.name }}">{{ category.name }}</option>
-                    {% endfor %}    
-                </select>    
-            </form>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button class="btn btn-outline-primary m-2" form="PublishCardForm" type="submit" value="Update/">Add</button>
-    </div>
-    </div>
-</div>
-</div>
-
-<!-- Add Category Button, trigger modal -->
-<button type="button" class="btn btn-primary m-3 bg-opacity-75" data-bs-toggle="modal" data-bs-target="#categoryModal">
-    Add category
-</button>
-
 <!-- Category Modal -->
 <div class="modal fade" id="categoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="categoryModalLabel">Category</h5>
+            <h5 class="modal-title" id="categoryModalLabel">Категории</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -63,27 +19,50 @@
                     {% csrf_token %}
                     {{ category_form.name }} 
                 </form>
-                <small class="text-muted ms-2">Name must be unique</small>
+                <small class="text-muted ms-2">Название категории должно быть уникальным</small>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button class="btn btn-outline-primary m-2" form="PublishCategoryForm" type="submit" value="Update/">Add</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button class="btn btn-outline-primary m-2" form="PublishCategoryForm" type="submit" value="Update/">Добавить</button>
         </div>
         </div>
     </div>
     </div>
 
-<!-- Category accordion -->
-<div class="accordion" id="accordionPanels">
+<!--Category button group -->
+<section class="py-4 bg-neutral">
+    <div class="container">
+        <h2 class="mb-4 fw-semibold">Категории</h2>
+        <div class="row nav nav-pills"  id="pills-tab" role="tablist">
+        {% for category in categories %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 nav-item" role="presentation">
+                <div class="btn btn-outline-success btn-lg m-2 w-100 {% if forloop.first %}active{% endif %}" id="pills-{{ category.name }}-tab" data-bs-toggle="pill" data-bs-target="#pills-{{ category.name }}" type="button" role="tab" aria-controls="pills-{{ category.name }}" aria-selected="{% if forloop.first %} true {% else %} false {% endif %} ">{{ category.name }}</div>
+            </div>
+        {% endfor %}
+            <div class="col-auto">
+                <button type="button" class="btn btn-outline-success m-2 btn-lg" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                +
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Cards -->
+<div class="tab-content" id="pills-tabContent">
     {% for category in categories %}
-        {% include "vkusno/category_view.html"%}
+        <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="pills-{{ category.name }}" role="tabpanel" aria-labelledby="pills-{{ category.name }}-tab" tabindex="0">
+            <div class="row products-list m-0">
+                {% for card in cards %}
+                    {% if card.category.name == category.name %}
+                        {% include "vkusno/card_view.html"%}
+                    {% endif%}
+                {% endfor %}
+            </div>
+        </div>
     {% endfor %}
-{% comment %}
-<div class="col-md-7">
-    {% for card in cards %}
-        {% include "vkusno/card_view.html"%}
-    {% endfor %}
-</div>
-{% endcomment %}
+  </div>
+
 {% endblock %}
