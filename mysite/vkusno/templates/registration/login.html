@@ -1,7 +1,7 @@
 {% extends "vkusno/base_b5.html" %}
 
 {% block content %}
-
+<div class="container">
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -47,5 +47,6 @@
 </form>
 <br>
 <p>or <a href="{% url 'user_profile:registration' %}">Registration</a></p>
+</div>
 
 {% endblock %}
