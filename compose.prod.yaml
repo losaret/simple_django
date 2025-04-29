@@ -3,6 +3,7 @@ services:
     build:
       context: ./mysite
       dockerfile: Dockerfile.prod
+    container_name: web
     expose:
       - 8000
     depends_on:

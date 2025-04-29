@@ -29,7 +29,7 @@ class index(LoginRequiredMixin, View):
         params['categories'] = categories_view
         return render(request, 'vkusno/self_profile.html', params)
     
-class Publishcard(LoginRequiredMixin, View):
+class PublishCard(LoginRequiredMixin, View):
     def post(self, request):
         form = PublishCardForm(request.POST, request.FILES)
         if form.is_valid():
@@ -49,13 +49,16 @@ class Publishcard(LoginRequiredMixin, View):
             published_card.save()
         return HttpResponseRedirect('/')
 
-class Deletecard(LoginRequiredMixin, DeleteView):
+class DeleteCard(LoginRequiredMixin, DeleteView):
     model = product_card
     template_name = 'vkusno/card_delete.html'
     success_url = reverse_lazy('home')
+    def get_queryset(self):
+        # Обеспечиваем, что пользователь может удалять только свои карточки
+        return super().get_queryset().filter(user=self.request.user)
             
 
-class Publishcategory(LoginRequiredMixin, View):
+class PublishCategory(LoginRequiredMixin, View):
     def post(self, request):
         form = PublishCategoryForm(request.POST)
         if form.is_valid():

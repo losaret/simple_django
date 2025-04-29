@@ -10,16 +10,17 @@
         </div>
         {% if card.choice == 'vk' %}
             <div class="bg-success text-white bg-opacity-75 shadow-sm mx-auto rounded-4 m-2" style="width: 80%; height: 30px ">
-                <p class="text-center">Delicious</p>
+                <p class="text-center">Like</p>
             </div>
         {% else %}
             <div class="bg-danger text-white bg-opacity-75 shadow-sm mx-auto rounded-4 m-2" style="width: 80%; height: 30px">
-                <p class="text-center" >Tasteless</p>
+                <p class="text-center" >Dislike</p>
             </div>
         {% endif %}  
         <div class="card-footer">
             <div class="d-flex justify-content-between">
-                <a href="/user/{{ card.user }}">{{ card.user }}</a>
+                <small class="text-muted">{{ card.user }}</small>
+                <!-- <a href="/user/{{ card.user }}">{{ card.user }}</a> -->
                 <a href="{% url 'card_delete' card.pk %}">Delete</a>
                 <small class="text-muted">{{ card.created_date }}</small>
             </div>

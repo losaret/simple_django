@@ -47,24 +47,24 @@
               <li><a href="{% url 'home' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-decoration-none">
                     <span class="logo-font text-mint fs-3 me-4">Оцени</span>
                   </a></li>
-              <li><a href="#" class="nav-link px-2 link-body-emphasis">Roadmap</a></li>
+              <!-- <li><a href="#" class="nav-link px-2 link-body-emphasis">Roadmap</a></li> -->
             </ul>
             {% if user.is_authenticated %}
             <button type="button" class="btn btn-success m-3 bg-opacity-75" data-bs-toggle="modal" data-bs-target="#cardModal">
             + Добавить продукт
             </button>
-    
+            <!--
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
               <input type="search" class="form-control" placeholder="Поиск..." aria-label="Search">
             </form>
-            
+            -->
             <div class="dropdown text-end">
               <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{% static 'avatar.jpg' %}" alt="mdo" width="32" height="32" class="rounded-circle">
               </a>
               <ul class="dropdown-menu text-small">
-                <li><a class="dropdown-item" href="#">Настройки</a></li>
-                <li><a class="dropdown-item" href="#">Профиль</a></li>
+                <!-- <li><a class="dropdown-item" href="#">Настройки</a></li> -->
+                <!-- <li><a class="dropdown-item" href="#">Профиль</a></li> -->
                 <li><hr class="dropdown-divider"></li>
                 <li><form method="post" action="{% url 'user_profile:logout' %}">
                   {% csrf_token %}
@@ -97,8 +97,8 @@
                         {{ card_form.comment }}
                         {{ card_form.card_image }}
                         <select class="form-select m-2" name="choice">
-                            <option value="vk">Delicious</option>
-                            <option value="ne">Tasteless</option>
+                            <option value="vk">Like</option>
+                            <option value="ne">Dislike</option>
                         </select>
                         <select class="form-select m-2" aria-label="Default select" name="category">
                             {% for category in categories %}
