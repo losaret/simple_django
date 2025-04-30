@@ -1,0 +1,14 @@
+ENV file must include:
+
+DEBUG=
+SECRET_KEY='changeme'
+DJANGO_ALLOWED_HOSTS=
+CSRF_TRUSTED_ORIGINS=
+SQL_ENGINE=  #example django.db.backends.postgresql
+SQL_DATABASE=
+SQL_USER=
+SQL_PASSWORD=
+SQL_HOST=
+SQL_PORT=  #often 5432
+VIRTUAL_HOST=
+VIRTUAL_PORT=8000
