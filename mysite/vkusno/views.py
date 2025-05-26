@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.files.storage import FileSystemStorage
-from django.views.generic import View, DeleteView
+from django.views.generic import View, DeleteView, UpdateView
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .models import product_card, categories
@@ -74,6 +74,26 @@ class PublishCategory(LoginRequiredMixin, View):
                 published_category.save()
         return HttpResponseRedirect('/')
     
+class UpdateCategory(LoginRequiredMixin, UpdateView):
+    model = categories
+    form_class = PublishCategoryForm
+    template_name = 'vkusno/self_profile.html'
+    success_url = reverse_lazy('home')
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = self.object
+        return context
+    
+class DeleteCategory(LoginRequiredMixin, DeleteView):
+    model = categories
+    template_name = 'vkusno/category_delete.html'
+    success_url = reverse_lazy('home')
+    def get_queryset(self):
+        # Обеспечиваем, что пользователь может удалять только свои категории
+        return super().get_queryset().filter(user=self.request.user)
+
 @require_POST
 def image_upload(request):
     if request.method == "POST" and request.FILES["image_file"]:

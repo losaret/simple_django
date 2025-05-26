@@ -9,7 +9,7 @@ class PublishCardForm(ModelForm):
         widgets = {
             'comment': TextInput(attrs={
                 'class': "form-control m-2",
-                'placeholder': "Name",
+                'placeholder': "Название",
             }),
             'card_image': FileInput(attrs={
                 'class': "form-control m-2",
@@ -26,6 +26,6 @@ class PublishCategoryForm(ModelForm):
         widgets = {
             'name': TextInput(attrs={
                 'class': "form-control m-2",
-                'placeholder': "Name",
+                'placeholder': "Название",
             }),
         }

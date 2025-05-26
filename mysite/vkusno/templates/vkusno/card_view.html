@@ -10,19 +10,19 @@
         </div>
         {% if card.choice == 'vk' %}
             <div class="bg-success text-white bg-opacity-75 shadow-sm mx-auto rounded-4 m-2" style="width: 80%; height: 30px ">
-                <p class="text-center">Like</p>
+                <p class="text-center">Нравится</p>
             </div>
         {% else %}
             <div class="bg-danger text-white bg-opacity-75 shadow-sm mx-auto rounded-4 m-2" style="width: 80%; height: 30px">
-                <p class="text-center" >Dislike</p>
+                <p class="text-center" >Не нравится</p>
             </div>
         {% endif %}  
         <div class="card-footer">
-            <div class="d-flex justify-content-between">
-                <small class="text-muted">{{ card.user }}</small>
+            <div class="row justify-content-md-center">
+                <small class="text-muted col-md-auto">{{ card.user }}</small>
+                <small class="text-muted col-md-auto">{{ card.created_date }}</small>
                 <!-- <a href="/user/{{ card.user }}">{{ card.user }}</a> -->
-                <a href="{% url 'card_delete' card.pk %}">Delete</a>
-                <small class="text-muted">{{ card.created_date }}</small>
+                <a class="bi bi-trash3 col-md-auto" href="{% url 'card_delete' card.pk %}"></a>
             </div>
         </div>        
     </div>

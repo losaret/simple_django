@@ -18,10 +18,7 @@ ENV PYTHONUNBUFFERED=1
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
 
-RUN mkdir -p "$APP_HOME" \
-&& mkdir "$APP_HOME"/staticfiles \
-&& mkdir "$APP_HOME"/mediafiles \
-&& mkdir "$APP_HOME"/migrations
+RUN mkdir -p "$APP_HOME" 
 
 WORKDIR $APP_HOME
 
@@ -49,6 +46,10 @@ RUN chown appuser -R "$APP_HOME"
 
 # Switch to the non-privileged user to run the application.
 USER appuser
+
+RUN mkdir "$APP_HOME"/staticfiles \
+&& mkdir "$APP_HOME"/mediafiles \
+&& mkdir "$APP_HOME"/migrations
 
 # Copy the source code into the container.
 COPY --chown=appuser:appuser . .

@@ -1,52 +1,23 @@
 {% extends "vkusno/base_b5.html" %}
 
 {% block content %}
-
-<h2> Registration </h2>
-
-{% comment %}
-<form method="post">
-  {% csrf_token %}
-  <div class="mb-3">
-    <label for="username" class="form-label" >Username</label>
-    <input type="input" class="form-control" name="username"  id="InputUsername" style="width:300px" required>
-  </div>
-  <div class="mb-3">
-    <label for="email" class="form-label" >Email</label>
-    <input type="email" class="form-control" name="email"  id="InputEmail" style="width:300px" required>
-  </div>
-  <div class="mb-3">
-    <label for="InputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" name="password1" id="InputPassword1" style="width:300px" required>
-  </div>
-  <p class="text-muted h-6">Your password can’t be too similar to your other personal information.</p>
-  <ul>
-    <li class="text-muted h-6">Your password must contain at least 8 characters.</li>
-    <li class="text-muted h-6">Your password can’t be a commonly used password.</li>
-    <li class="text-muted h-6">Your password can’t be entirely numeric.</li>
-  </ul>
-  <div class="mb-3">
-    <label for="InputPassword1" class="form-label">Confirm password</label>
-    <input type="password" class="form-control" name="password2" id="InputPassword1" style="width:300px" required>
-  </div>
-  <button type="submit" action="{% url 'home' %}" class="btn btn-outline-primary" style="opacity: 1 !important;">Register</button>
-</form>
-{% endcomment %}
-<form method="post">
-  {% csrf_token %}
-  {% for field in form %}
-    <p>
-      {{ field }}
-      {% if field.help_text %}
-        <small style="color: grey">{{ field.help_text }}</small>
-      {% endif %}
-      {% for error in field.errors %}
-        <p style="color: red">{{ error }}</p>
-      {% endfor %}
-    </p>
-  {% endfor %}
-  <button type="submit" action="{% url 'home' %}" class="btn btn-outline-primary" style="opacity: 1 !important;">Register</button>
-</form>
-
+<div class="container">
+  <h2> Регистрация </h2>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit" action="{% url 'home' %}" class="btn btn-outline-primary" style="opacity: 1 !important;">Регистрация</button>
+  </form>
+</div>
 
 {% endblock %}

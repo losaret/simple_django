@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<p style="color: red">Неверный логин или пароль</p>
 {% endif %}
 
 {% if next %}
@@ -11,42 +11,24 @@
     <p>Your account doesn't have access to this page. To proceed,
     please login with an account that has access.</p>
     {% else %}
-    <p>Please login to see this page.</p>
+    <small style="color: grey">Пожалуйста войдите, чтобы видеть эту страницу</small>
     {% endif %}
 {% endif %}
-{% comment %}
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
-{% endcomment %}
 
 <form method="post">
     {% csrf_token %}
     <div class="mb-3">
-      <label for="Username" class="form-label" >Username</label>
+      <label for="Username" class="form-label" >Логин</label>
       <input type="input" class="form-control" name="username"  id="InputUsername" style="width:300px" required>
     </div>
     <div class="mb-3">
-      <label for="InputPassword" class="form-label">Password</label>
+      <label for="InputPassword" class="form-label">Пароль</label>
       <input type="password" class="form-control" name="password" id="InputPassword1" style="width:300px" required>
     </div>
-    <button type="submit" action="{% url 'home' %}" class="btn btn-outline-primary" style="opacity: 1 !important;">Login</button>
+    <button type="submit" action="{% url 'home' %}" class="btn btn-outline-primary" style="opacity: 1 !important;">Войти</button>
 </form>
 <br>
-<p>or <a href="{% url 'user_profile:registration' %}">Registration</a></p>
+<p><a href="{% url 'user_profile:registration' %}">Регистрация</a></p>
 </div>
 
 {% endblock %}

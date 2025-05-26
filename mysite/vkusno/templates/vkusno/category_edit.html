@@ -1,0 +1,8 @@
+<form id="categoryEditForm" method="post" action="{% url 'category_edit' category.pk %}">
+    {% csrf_token %}
+    <input type="text" class="form-control" id="id_name" name="name" value="{{ category.name }}">
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+      <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </div>
+  </form>

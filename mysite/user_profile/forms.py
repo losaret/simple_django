@@ -13,27 +13,27 @@ class RegistrationForm(forms.ModelForm):
     """
 
     error_messages = {
-        "password_mismatch": _("The two password fields didn’t match."),
+        "password_mismatch": _("Пароль не совпадают."),
     }
     password1 = forms.CharField(
-        label=_("Password"),
+        label=_("Пароль"),
         strip=False,
         widget=forms.PasswordInput(attrs={
             "autocomplete": "new-password",
             'class': "form-select m-2",
             "style": "width: 300px;"            
         }),
-        help_text=password_validation.password_validators_help_text_html(),
+        help_text=_("Пароль должен содержать более 8 символов и не быть полностью из чисел"),
     )
     password2 = forms.CharField(
-        label=_("Password confirmation"),
+        label=_("Подтвердите пароль"),
         widget=forms.PasswordInput(attrs={
             "autocomplete": "new-password",
             'class': "form-select m-2",
             "style": "width: 300px;"
         }),
         strip=False,
-        help_text=_("Enter the same password as before, for verification."),
+        help_text=_("Введите тот же пароль для верификации"),
     )
 
     class Meta:
@@ -43,12 +43,12 @@ class RegistrationForm(forms.ModelForm):
         widgets = {
             'username': forms.TextInput(attrs={
                 'class': "form-control m-2",
-                'placeholder': "Username",
+                'placeholder': "Логин",
                 "style": "width: 300px;"
             }),
             'email': forms.TextInput(attrs={
                 'class': "form-control m-2",
-                'placeholder': "Email",
+                'placeholder': "Почта",
                 "style": "width: 300px;"
             }),
         }
