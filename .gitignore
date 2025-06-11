@@ -5,6 +5,12 @@
 
 .scannerwork
 
+#k3s dirs
+k3s/
+
+#Tilte files https://tilt.dev/
+Tiltfile
+
 #app ignore
 install.txt
 db/

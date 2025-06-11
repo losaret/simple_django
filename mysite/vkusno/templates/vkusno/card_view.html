@@ -18,11 +18,11 @@
             </div>
         {% endif %}  
         <div class="card-footer">
-            <div class="row justify-content-md-center">
-                <small class="text-muted col-md-auto">{{ card.user }}</small>
-                <small class="text-muted col-md-auto">{{ card.created_date }}</small>
+            <div class="row justify-content-center">
+                <small class="text-muted col-auto">{{ card.user }}</small>
+                <small class="text-muted col-auto">{{ card.created_date }}</small>
                 <!-- <a href="/user/{{ card.user }}">{{ card.user }}</a> -->
-                <a class="bi bi-trash3 col-md-auto" href="{% url 'card_delete' card.pk %}"></a>
+                <a class="bi bi-trash3 col-auto" href="{% url 'card_delete' card.pk %}"></a>
             </div>
         </div>        
     </div>
