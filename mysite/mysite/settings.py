@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = bool(int(os.environ.get("DEBUG", default=0)))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", default="localhost").split(" ")
-
+SITE_ID = 1
 #Https settings
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -38,11 +38,14 @@ CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", default="localhost
 # Application definition
 
 INSTALLED_APPS = [
-    'user_profile',
     'django.contrib.auth',
+    'django.contrib.messages',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'user_profile',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
     'vkusno',
     'django.contrib.admin',
@@ -56,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -63,7 +67,9 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / "vkusno" / "templates",
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,6 +80,14 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
@@ -93,6 +107,12 @@ DATABASES = {
     }
 }
 
+# Migrations file settings
+
+MIGRATION_MODULES = {
+    'user_profile': 'migrations.user_profile',
+    'vkusno': 'migrations.vkusno',
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -145,5 +165,26 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Auth settings
-LOGIN_REDIRECT_URL = '/'
+
+#AUTH_USER_MODEL = 'user_profile.ExtendUser'
+
 #LOGOUT_REDIRECT_URL = ''
+
+# Настройки allauth
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = os.environ.get("ACCOUNT_DEFAULT_HTTP_PROTOCOL", default="http")
+ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+ACCOUNT_EMAIL_VERIFICATION = os.environ.get("ACCOUNT_EMAIL_VERIFICATION", default="none" )  # обязательная верификация
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}
+ACCOUNT_RATE_LIMITS = {
+    'confirm_email': '5/m',  # 5 запросов в минуту (или другое значение)
+    # Можно также указать другие ограничения, например:
+    'reset_password': '10/h',  # 10 запросов в час
+}
+LOGIN_REDIRECT_URL = '/'
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", default='587'))
+EMAIL_USE_SSL = bool(os.environ.get("EMAIL_USE_SSL", default='False'))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")

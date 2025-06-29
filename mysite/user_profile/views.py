@@ -6,7 +6,10 @@ from django.views import generic
 from.forms import RegistrationForm
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_protect
-# Create your views here.
+from allauth.account.utils import send_email_confirmation
+from django.contrib.sites.shortcuts import get_current_site
+
+
 '''
 class RegistrationView(generic.CreateView):
     form_class = UserCreationForm
@@ -25,6 +28,8 @@ def registration_view(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
+            print(get_current_site(request))
+            send_email_confirmation(request, user)
             login(request, user)
             return redirect('home')
     return render(request, 'registration/registration.html', {'form': form})

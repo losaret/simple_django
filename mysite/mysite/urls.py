@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('vkusno.urls')),
     path("accounts/", include('user_profile.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if bool(settings.DEBUG):

@@ -42,8 +42,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     python3 -m pip install -r requirements.txt
 
 RUN mkdir "$APP_HOME"/staticfiles \
-&& mkdir "$APP_HOME"/mediafiles \
-&& mkdir "$APP_HOME"/migrations
+&& mkdir "$APP_HOME"/mediafiles
 
 RUN chown appuser -R "$APP_HOME"
 
