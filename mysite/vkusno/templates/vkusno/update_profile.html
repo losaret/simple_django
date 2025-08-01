@@ -1,0 +1,74 @@
+{% extends 'vkusno/base_b5.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Редактирование профиля</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Аватар (круглый) -->
+                        <div class="text-center mb-4">
+                            {% if extend_form.instance.avatar %}
+                                <img src="{{ extend_form.instance.avatar.url }}" 
+                                     class="rounded-circle border" 
+                                     width="150" 
+                                     height="150"
+                                     alt="Аватар">
+                            {% else %}
+                                <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center" 
+                                     style="width: 150px; height: 150px;">
+                                    <span class="text-muted">Нет аватара</span>
+                                </div>
+                            {% endif %}
+                            <div class="mt-3">
+                                <label for="{{ extend_form.avatar.id_for_label }}" class="form-label">
+                                    Сменить аватар: 
+                                </label>
+                                {{ extend_form.avatar }}
+                                {% if extend_form.avatar.errors %}
+                                    <div class="text-danger mt-1">
+                                        {{ extend_form.avatar.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- ФИО -->
+                        <div class="mb-3">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label">Имя</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ form.first_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label">Фамилия</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ form.last_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                            <a href="{% url 'user_profile:profile' %}" class="btn btn-outline-secondary">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

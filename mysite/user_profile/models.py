@@ -8,8 +8,6 @@ def get_upload_path(instance, filename):
 # Create your models here.
 class ExtendUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=30, blank=True)
-    second_name = models.CharField(max_length=30, blank=True)
     avatar = models.ImageField(upload_to=get_upload_path, blank=True, null=True)
 
     @property
@@ -20,3 +18,5 @@ class ExtendUser(models.Model):
             email=self.user.email,
             verified=True
         ).exists()
+    def __str__(self):
+        return self.user.username

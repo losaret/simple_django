@@ -57,11 +57,15 @@
             -->
             <div class="dropdown col-auto text-end">
               <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{% static 'avatar.jpg' %}" alt="mdo" width="32" height="32" class="rounded-circle">
+                {% if user.extenduser.avatar %}
+                  <img src="{{ user.extenduser.avatar.url }} " alt="mdo" width="32" height="32" class="rounded-circle">
+                {% else %}
+                  <img src="{% static 'avatar.jpg' %}" alt="mdo" width="32" height="32" class="rounded-circle">
+                {% endif %}
               </a>
               <ul class="dropdown-menu text-small">
                 <!-- <li><a class="dropdown-item" href="#">Настройки</a></li> -->
-                <!-- <li><a class="dropdown-item" href="#">Профиль</a></li> -->
+                <li><a class="dropdown-item" href="{% url 'user_profile:profile' %}">Профиль</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><form method="post" action="{% url 'user_profile:logout' %}">
                   {% csrf_token %}

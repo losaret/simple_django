@@ -4,6 +4,36 @@ from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, get_user_model, password_validation
+from .models import ExtendUser
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': "form-control m-2",
+                'placeholder': "Имя",
+                "style": "width: 300px;"
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': "form-control m-2",
+                'placeholder': "Фамилия",
+                "style": "width: 300px;"
+            }),
+        }
+
+class ExtendUserForm(forms.ModelForm):
+    class Meta:
+        model = ExtendUser
+        fields = ['avatar']
+        widgets = {
+            'avatar': forms.FileInput(attrs={
+            'class': 'form-control m-2',
+            "style": "width: 300px;"
+        }),
+        }
 
 
 class RegistrationForm(forms.ModelForm):
