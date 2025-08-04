@@ -5,7 +5,7 @@
     <form method="post">
         {% csrf_token %}
         <h2 class="m-2">Вы уверены, что хотите удалить всю категорию? </h2>
-        <h3 class="mb-2">Карточки удалятся вместе с ней</h2>
+        <h3 class="m-2">Карточки удалятся вместе с ней</h2>
         <input type="submit" value="Удалить" class="btn btn-danger" />
         <a href="{% url 'home' %}" class="btn btn-primary">Отмена</a>
     </form>

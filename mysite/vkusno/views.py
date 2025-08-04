@@ -15,7 +15,7 @@ from django.contrib.auth import get_user_model
 # Create your views here.
 
 
-class index(LoginRequiredMixin, View):
+class Index(LoginRequiredMixin, View):
     """ Index page reachable from / URL"""
     def get(self, request):
         params = dict()
@@ -38,7 +38,10 @@ class PublishCard(LoginRequiredMixin, View):
             image = request.FILES['card_image']
             text = form.cleaned_data['comment']
             category_name = request.POST.get('category')
-            card_category = categories.objects.get(user=userprofile, name=category_name)
+            try:
+                card_category = categories.objects.get(user=userprofile, name=category_name)
+            except:
+                return HttpResponseRedirect('/')
             card_choice = form.cleaned_data['choice']
             published_card = product_card(
                 comment = text,
