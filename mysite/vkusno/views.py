@@ -97,16 +97,16 @@ class DeleteCategory(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         # Обеспечиваем, что пользователь может удалять только свои категории
         return super().get_queryset().filter(user=self.request.user)
-
-@require_POST
-def image_upload(request):
-    if request.method == "POST" and request.FILES["image_file"]:
-        image_file = request.FILES["image_file"]
-        fs = FileSystemStorage()
-        filename = fs.save(image_file.name, image_file)
-        image_url = fs.url(filename)
-        print(image_url)
-        return render(request, "upload.html", {
-            "image_url" : image_url
-        })
-    return render(request, "upload.html")
+    
+class Search(View):
+    """ Searching posts reachable from from /search/?q=<query> URL """
+    def get(self, request):
+        query = request.GET.get('query')
+        params = dict()
+        userprofile = User.objects.get(username=request.user.username)
+        try:
+            cards = product_card.objects.filter(user=userprofile, comment__icontains=query)
+            params['cards'] = cards
+        except ValueError:
+            pass
+        return render(request, 'vkusno/search.html', params)

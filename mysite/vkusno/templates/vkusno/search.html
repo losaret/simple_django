@@ -1,0 +1,8 @@
+{% extends 'vkusno/base_b5.html' %}
+{% block content %}
+<div class="row products-list m-0">
+    {% for card in cards.all %}
+        {% include "vkusno/card_view.html"%}
+    {% endfor %}
+</div>
+{% endblock %}
