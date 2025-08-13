@@ -10,17 +10,19 @@ from .models import ExtendUser
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name']
+        fields = ['email', 'first_name', 'last_name']
         widgets = {
+            'email': forms.TextInput(attrs={
+                'class': "form-control",
+                'placeholder': "E-mail",
+            }),
             'first_name': forms.TextInput(attrs={
-                'class': "form-control m-2",
+                'class': "form-control",
                 'placeholder': "Имя",
-                "style": "width: 300px;"
             }),
             'last_name': forms.TextInput(attrs={
-                'class': "form-control m-2",
+                'class': "form-control",
                 'placeholder': "Фамилия",
-                "style": "width: 300px;"
             }),
         }
 
@@ -30,8 +32,7 @@ class ExtendUserForm(forms.ModelForm):
         fields = ['avatar']
         widgets = {
             'avatar': forms.FileInput(attrs={
-            'class': 'form-control m-2',
-            "style": "width: 300px;"
+            'class': 'form-control',
         }),
         }
 
