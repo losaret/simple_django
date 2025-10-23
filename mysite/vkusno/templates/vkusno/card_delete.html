@@ -1,0 +1,12 @@
+{% extends 'vkusno/base_b5.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        <h2 class="mb-4">Вы уверены, что хотите удалить карточку?</h2>
+        <input type="submit" value="Удалить" class="btn btn-danger" />
+        <a href="{% url 'home' %}" class="btn btn-primary">Отмена</a>
+    </form>
+</div>
+{% endblock %}
