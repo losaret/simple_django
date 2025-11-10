@@ -3,3 +3,4 @@ psycopg2-binary==2.9.9
 gunicorn>=21
 Pillow>=10.2
 django-allauth==65.9.0
+django-auditlog==3.3.0

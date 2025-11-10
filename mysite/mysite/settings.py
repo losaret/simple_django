@@ -26,7 +26,7 @@ LOGGING = {
             'style': '{',
         },
         'simple': {
-            'format': '{levelname} {message}',
+            'format': '{levelname} {module} {message}',
             'style': '{',
         },
     },
@@ -38,8 +38,17 @@ LOGGING = {
         },
         'file': {
             'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
+            'formatter': 'verbose',
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+            'encoding': 'utf-8',
+        },
+        'auth_file': {
+            'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/django.log'),
+            'filename': os.path.join(BASE_DIR, 'logs/auth.log'),
             'formatter': 'verbose',
         },
     },
@@ -53,10 +62,9 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
-        # Добавьте ваши приложения здесь
-        'myapp': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+        'user_profile': {
+            'handlers': ['auth_file'],
+            'level': 'INFO',
             'propagate': False,
         },
     },
@@ -97,6 +105,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'vkusno',
+    'auditlog',
     'django.contrib.admin',
 ]
 
