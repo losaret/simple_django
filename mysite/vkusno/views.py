@@ -25,6 +25,7 @@ class Index(LoginRequiredMixin, View):
         cards = product_card.objects.filter(query)
         categories_view = categories.objects.filter(query)
         params['cards'] = cards
+        params['search_query'] = search_query
         params['profile'] = userprofile
         params['card_form'] = PublishCardForm()
         params['category_form'] = PublishCategoryForm()
