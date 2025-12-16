@@ -5,12 +5,15 @@ from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, get_user_model, password_validation
 from .models import ExtendUser
+from turnstile.fields import TurnstileField
 
 
 class UserForm(forms.ModelForm):
+    turnstile = TurnstileField()
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name']
+        turnstile = TurnstileField()
+        fields = ['email', 'first_name', 'last_name', 'turnstile']
         widgets = {
             'email': forms.TextInput(attrs={
                 'class': "form-control",
@@ -42,7 +45,7 @@ class RegistrationForm(forms.ModelForm):
     A form that creates a user, with no privileges, from the given username and
     password.
     """
-
+    turnstile = TurnstileField()
     error_messages = {
         "password_mismatch": _("Пароль не совпадают."),
     }

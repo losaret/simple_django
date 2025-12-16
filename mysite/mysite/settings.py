@@ -106,6 +106,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vkusno',
     'auditlog',
+    'turnstile',
     'django.contrib.admin',
 ]
 
@@ -201,6 +202,13 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 
 USE_TZ = True
+
+# Turnstile configurations
+TURNSTILE_SITEKEY = os.environ.get('TURNSTILE_SITEKEY', '1x00000000000000000000AA')
+TURNSTILE_SECRET = os.environ.get('TURNSTILE_TURNSTILE_SECRET', '1x0000000000000000000000000000000AA')
+TURNSTILE_DEFAULT_CONFIG = {
+    'theme': 'light',
+}
 
 
 # Static files (CSS, JavaScript, Images)
