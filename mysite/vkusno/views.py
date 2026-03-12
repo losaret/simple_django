@@ -21,9 +21,11 @@ class Index(LoginRequiredMixin, View):
         params = dict()
         userprofile = User.objects.filter(username=request.user.username).first()
         query = Q(user=userprofile)
+        search_query = ''
         cards = product_card.objects.filter(query)
         categories_view = categories.objects.filter(query)
         params['cards'] = cards
+        params['search_query'] = search_query
         params['profile'] = userprofile
         params['card_form'] = PublishCardForm()
         params['category_form'] = PublishCategoryForm()
@@ -101,12 +103,22 @@ class DeleteCategory(LoginRequiredMixin, DeleteView):
 class Search(View):
     """ Searching posts reachable from from /search/?q=<query> URL """
     def get(self, request):
-        query = request.GET.get('query')
+        search_query = request.GET.get('query')
         params = dict()
         userprofile = User.objects.get(username=request.user.username)
         try:
-            cards = product_card.objects.filter(user=userprofile, comment__icontains=query)
+            cards = product_card.objects.filter(user=userprofile, comment__icontains=search_query)
             params['cards'] = cards
+            params['search_query'] = search_query
         except ValueError:
             pass
         return render(request, 'vkusno/search.html', params)
+
+class About(View):
+    def get(self, request):
+        params = dict()
+        userprofile = User.objects.filter(username=request.user.username).first()
+        search_query = ''
+        params['search_query'] = search_query
+        params['profile'] = userprofile
+        return render(request, 'vkusno/about.html', params)        

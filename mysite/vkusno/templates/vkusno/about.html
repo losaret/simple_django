@@ -1,0 +1,156 @@
+{% extends "vkusno/base_b5.html" %}
+
+{% block content %}
+
+<style>
+  .step-number {
+      display: inline-flex;          
+      align-items: center;
+      justify-content: center;
+      background-color: #d1f2e9;     
+      color: #0b4e3e;                
+      font-weight: 700;
+      font-size: 1.6rem;             
+      min-width: 3.2rem;             
+      height: 3.2rem;                  
+      padding: 0 0.2rem;               
+      border-radius: 3rem;             
+      line-height: 1;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+      border: 1px solid rgba(10, 70, 50, 0.1);
+  }
+
+  .card .d-flex .step-number {
+      flex-shrink: 0;
+  }
+
+  .card-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+  }
+
+  .card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: none;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0,0,0,0.1);
+  }
+
+  .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 30px rgba(0, 40, 30, 0.08);
+  }
+
+  .section-header {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #1e2f2b;
+  }
+
+  .how-to-start {
+      padding: 3rem 1.5rem;
+  }
+</style>
+
+<div class="position-relative overflow-hidden p-1 p-md-3 m-md-5 text-center bg-light">
+  <div class="col-md-5 p-lg-2 mx-auto my-3">
+    <h1 class="display-4 fw-normal text-mint">Собери свою коллекцию</h1>
+    <p class="lead fw-normal">Создавай категории и карточки с возможностью ставить оценки "нравится" или "не нравится". Это удобный сопособ систематизировать интересы.</p>
+    <a class="btn btn-outline-secondary" href="{% url 'home' %}">На главную</a>
+  </div>
+  <div class="product-device shadow-sm d-none d-md-block"></div>
+  <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+</div>
+
+<div class="container px-4 py-1">
+  <h2 class="pb-2 border-bottom">Ключевые особенности</h2>
+  <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    <div class="feature col">
+      <div class="feature-icon bg-primary bg-gradient">
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <i class="ri-scales-line fs-1"></i>
+        <h2 class="mb-0">Минимализм</h2>
+      </div>
+      <p>Не нужно выбирать оценку из 10, из 5 или дроби, просто "Нравится" - "Не нравится".</p>
+    </div>
+    <div class="feature col">
+      <div class="d-flex align-items-center gap-2">
+        <i class="ri-archive-stack-line fs-1"></i>
+        <h2 class="mb-0">Разнообразие</h2>
+      </div>
+      <p>Добавляй любые категории, начиная от замороженных продуктов, заканчивая фильмами или сериалами.</p>
+    </div>
+    <div class="feature col">
+      <div class="feature-icon bg-primary bg-gradient">
+      </div>
+      
+      <div class="d-flex align-items-center gap-2">
+        <i class="ri-share-line fs-1"></i>
+        <h2 class="mb-0">Открытость</h2>
+      </div>
+      <p>Делись своей библиотекой с друзьми или подписывайся на них, чтобы ничего не пропустить.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container px-4 py-1">
+  <h2 class="pb-2 border-bottom">Как начать:</h2>
+  <div class="row g-4">
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card h-100 p-3 p-xl-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <span class="step-number">1</span>
+                <h3 class="card-title mb-0">Зарегистрируйтесь</h3>
+            </div>
+            <p class="card-text text-secondary-emphasis mt-2" style="color: #2d3f3a;">
+                Быстрая и простая регистрация - первый шаг к созданию собственных подборок и карточек.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card h-100 p-3 p-xl-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <span class="step-number">2</span>
+                <h3 class="card-title mb-0">Создайте категорию</h3>
+            </div>
+            <p class="card-text text-secondary-emphasis mt-2">
+                Дайте волю фантазии: категория для фильмов, книг, ресторанов или любых других увлечений.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card h-100 p-3 p-xl-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <span class="step-number">3</span>
+                <h3 class="card-title mb-0">Добавьте карточки</h3>
+            </div>
+            <p class="card-text text-secondary-emphasis mt-2">
+                Наполняйте их контентом: текст, изображения или ссылки - делайте карточки по‑настоящему полезными.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card h-100 p-3 p-xl-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <span class="step-number">4</span>
+                <h3 class="card-title mb-0">Начните оценивать</h3>
+            </div>
+            <p class="card-text text-secondary-emphasis mt-2">
+                Используйте «нравится» или «не нравится», чтобы выразить предпочтения и систематизировать впечатления.
+            </p>
+        </div>
+    </div>
+  </div>
+
+  <div class="text-center text-muted mt-5 small opacity-50">
+      • всё нужное - в четырёх шагах •
+  </div>
+</div>
+  
+</main>
+
+{% endblock %}

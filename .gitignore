@@ -4,6 +4,7 @@
 #SonarQube files
 
 .scannerwork
+sonar-project.properties
 
 #k3s dirs
 k3s/

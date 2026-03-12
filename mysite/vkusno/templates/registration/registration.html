@@ -6,6 +6,7 @@
   <form method="post">
     {% csrf_token %}
     {% for field in form %}
+      {% if field.name != 'turnstile' %}
       <p>
         {{ field }}
         {% if field.help_text %}
@@ -15,8 +16,18 @@
           <p style="color: red">{{ error }}</p>
         {% endfor %}
       </p>
+      {% endif %}
     {% endfor %}
+
+    <div class="captcha-section m-2">
+        {{ form.turnstile }}
+        {% if form.turnstile.errors %}
+        <div class="error">{{ form.turnstile.errors }}</div>
+        {% endif %}
+    </div>
+
     <button type="submit" action="{% url 'home' %}" class="btn btn-outline-primary" style="opacity: 1 !important;">Регистрация</button>
+
   </form>
 </div>
 

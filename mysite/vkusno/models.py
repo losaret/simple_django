@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.conf import settings
 from user_profile.models import ExtendUser
+from auditlog.registry import auditlog
 # Create your models here.
 
 def get_upload_path(instance, filename):
@@ -17,6 +18,8 @@ class categories(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
+
+auditlog.register(categories)
     
 class product_card(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -31,4 +34,4 @@ class product_card(models.Model):
     def __str__(self):
         return self.comment
 
-    
+auditlog.register(product_card)

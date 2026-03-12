@@ -7,12 +7,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Bootstrap CSS and JS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <!-- Remix Icon -->
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<!-- Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<!-- favicon -->
+<link rel="apple-touch-icon" sizes="57x57" href="{% static '/apple-icon-57x57.png' %}">
+<link rel="apple-touch-icon" sizes="60x60" href="{% static '/apple-icon-60x60.png' %}">
+<link rel="apple-touch-icon" sizes="72x72" href="{% static '/apple-icon-72x72.png' %}">
+<link rel="apple-touch-icon" sizes="76x76" href="{% static '/apple-icon-76x76.png' %}">
+<link rel="apple-touch-icon" sizes="114x114" href="{% static '/apple-icon-114x114.png' %}">
+<link rel="apple-touch-icon" sizes="120x120" href="{% static '/apple-icon-120x120.png' %}">
+<link rel="apple-touch-icon" sizes="144x144" href="{% static '/apple-icon-144x144.png' %}">
+<link rel="apple-touch-icon" sizes="152x152" href="{% static '/apple-icon-152x152.png' %}">
+<link rel="apple-touch-icon" sizes="180x180" href="{% static '/apple-icon-180x180.png' %}">
+<link rel="icon" type="image/png" sizes="192x192"  href="{% static '/android-icon-192x192.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static '/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="96x96" href="{% static '/favicon-96x96.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+<link rel="manifest" href="{% static '/manifest.json' %}">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
 
 <style>
   body {
@@ -43,16 +64,18 @@
     <header class="sticky-top py-3 shadow-sm header-blur">
         <div class="container">
           <div class="row justify-content-between">
-            <ul class="nav col-3 mb-2 justify-content-center">
-              <li><a href="{% url 'home' %}" class="d-flex align-items-center m-2 text-decoration-none">
-                    <span class="logo-font text-mint fs-3 me-4">Оцени</span>
-                  </a></li>
-              <!-- <li><a href="#" class="nav-link px-2 link-body-emphasis">Roadmap</a></li> -->
+            <ul class="col-3 mb-2 d-flex flex-row list-unstyled">
+              <li class="align-items-end me-4">
+                <a href="{% url 'home' %}" class="m-0 p-0 text-decoration-none">
+                  <span class="logo-font text-mint fs-3">Оцени</span>
+                </a>
+              </li>
+              <li class="d-flex align-items-end me-4"><a href="{% url 'about' %}" class="text-dark text-decoration-none m-0 p-0">О проекте</a></li>
             </ul>
             {% if user.is_authenticated %}
             
             <form class="col-5 col-md-3 m-1 p-0" role="search" action="/search/" method="get">
-              <input type="search" class="form-control" placeholder="Поиск..." aria-label="Search" name="query">
+              <input type="search" class="form-control" placeholder="Поиск..." aria-label="Search" value="{{ search_query|default:'' }}" name="query">
             </form>
             
             <div class="dropdown col-2 text-end">

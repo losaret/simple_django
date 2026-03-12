@@ -32,7 +32,7 @@ def registration_view(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
-            send_email_confirmation(request, user)
+            #send_email_confirmation(request, user)
             login(request, user)
             return redirect('home')
     return render(request, 'registration/registration.html', {'form': form})
