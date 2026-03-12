@@ -8,7 +8,7 @@ DJANGO_ALLOWED_HOSTS=
 
 CSRF_TRUSTED_ORIGINS=
 
-SQL_ENGINE=django.db.backends.postgresql #example
+SQL_ENGINE=django.db.backends.postgresql \#example
 
 SQL_DATABASE=
 
@@ -18,7 +18,7 @@ SQL_PASSWORD=
 
 SQL_HOST=
 
-SQL_PORT=5432 #often
+SQL_PORT=5432 \#often
 
 VIRTUAL_HOST=
 

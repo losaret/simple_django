@@ -113,3 +113,12 @@ class Search(View):
         except ValueError:
             pass
         return render(request, 'vkusno/search.html', params)
+
+class About(View):
+    def get(self, request):
+        params = dict()
+        userprofile = User.objects.filter(username=request.user.username).first()
+        search_query = ''
+        params['search_query'] = search_query
+        params['profile'] = userprofile
+        return render(request, 'vkusno/about.html', params)        
