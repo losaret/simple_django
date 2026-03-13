@@ -1,0 +1,41 @@
+{% extends "vkusno/base_b5.html" %}
+
+{% block content %}
+
+<!--Category and product button group -->
+<section class="py-4 bg-neutral">
+    <div class="container">
+        <div class="row justify-content-between">
+            <h2 class="mb-4 col-auto p-0 m-2 fw-semibold">Категории</h2>
+        </div>
+        <div class="nav nav-pills"  id="pills-tab" role="tablist">
+        {% for category in categories %}
+            <div class="col-auto m-2 nav-item" role="presentation">
+                <div class="btn-group" role="group">
+                    <div class="btn btn-outline-success btn-lg w-100 {% if forloop.first %}active{% endif %}" id="pills-{{ category.pk }}-tab" data-bs-toggle="pill" data-bs-target="#pills-{{ category.pk }}" role="tab" aria-controls="pills-{{ category.name }}" aria-selected="{% if forloop.first %} true {% else %} false {% endif %} ">
+                        {{ category.name }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- Cards -->
+<div class="tab-content" id="pills-tabContent">
+    {% for category in categories %}
+        <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="pills-{{ category.pk }}" role="tabpanel" aria-labelledby="pills-{{ category.pk }}-tab" tabindex="0">
+            <div class="row products-list m-0">
+                {% for card in cards %}
+                    {% if card.category.name == category.name %}
+                        {% include "vkusno/other_card_view.html"%}
+                    {% endif%}
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

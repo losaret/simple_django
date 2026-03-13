@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.files.storage import FileSystemStorage
@@ -100,8 +100,8 @@ class DeleteCategory(LoginRequiredMixin, DeleteView):
         # Обеспечиваем, что пользователь может удалять только свои категории
         return super().get_queryset().filter(user=self.request.user)
     
-class Search(View):
-    """ Searching posts reachable from from /search/?q=<query> URL """
+class Search(LoginRequiredMixin, View):
+    """ Searching cards reachable from from /search/?q=<query> URL """
     def get(self, request):
         search_query = request.GET.get('query')
         params = dict()
@@ -122,3 +122,18 @@ class About(View):
         params['search_query'] = search_query
         params['profile'] = userprofile
         return render(request, 'vkusno/about.html', params)        
+
+class OtherProfile(View):
+    """ View other profile reachable from from /<str:username>/ URL """
+    def get(self, request, username):
+        params = dict()
+        if request.user.username == username:
+            return redirect('home')
+        userprofile = User.objects.get(username=username)
+        query = Q(user=userprofile)
+        cards = product_card.objects.filter(query)
+        categories_view = categories.objects.filter(query)
+        params['cards'] = cards
+        params['profile'] = userprofile
+        params['categories'] = categories_view
+        return render(request, 'vkusno/other_profile.html', params)  
