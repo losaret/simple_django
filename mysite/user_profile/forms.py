@@ -8,6 +8,11 @@ from .models import ExtendUser
 from turnstile.fields import TurnstileField
 
 
+reserved_names = [
+    'api', 'admin', 'root', 'about', 'post_card', 'post_category', 'card', 'category',
+    'search',
+ ]
+
 class UserForm(forms.ModelForm):
     turnstile = TurnstileField()
     class Meta:
@@ -86,8 +91,14 @@ class RegistrationForm(forms.ModelForm):
                 "style": "width: 300px;"
             }),
         }
-
         
+
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if username.lower() in reserved_names:
+            raise ValidationError(
+                "username зарезервирован"
+            )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
