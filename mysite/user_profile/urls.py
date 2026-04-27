@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from .views import registration_view, UpdateProfile
+from .views import registration_view, UpdateProfile, FollowView
 
 app_name = "user_profile"
 
@@ -10,4 +10,6 @@ urlpatterns = [
     path("password_reset/", auth_views.PasswordResetView.as_view(template_name='password_reset.html'), name='password_reset'),
     path("registration/", registration_view, name='registration'),
     path("profile/", UpdateProfile.as_view(), name='profile' ),
+    path("follow/<str:username>/", FollowView.as_view(), name='follow'),
+
 ]

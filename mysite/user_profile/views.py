@@ -1,15 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, get_user_model
+from django.views.generic import UpdateView, View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import RegistrationForm, ExtendUserForm, UserForm
 from .models import ExtendUser
-from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_protect
 from allauth.account.utils import send_email_confirmation
-from django.views.generic import UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 '''
@@ -19,6 +21,8 @@ class RegistrationView(generic.CreateView):
     template_name = "registration/registration.html"
 
 '''
+
+User = get_user_model()
 
 @csrf_protect
 @require_http_methods(["POST", "GET"])
@@ -79,3 +83,37 @@ class UpdateProfile(LoginRequiredMixin, UpdateView):
                 extend_form=extend_form
             )
         )
+
+class FollowView(View):
+    def post(self, request, username):
+        user_to_follow = get_object_or_404(User, username=username).extenduser
+        current_user = request.user.extenduser
+        if current_user == user_to_follow:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'error': 'Нельзя подписаться на себя'
+                }, status=400)
+            return redirect('home')
+
+        is_following = current_user.is_following(user_to_follow)
+
+        if is_following:
+            current_user.unfollow(user_to_follow)
+            action = 'unfollowed'
+        else:
+            current_user.follow(user_to_follow)
+            action = 'followed'
+        
+        context = {
+            'is_following': not is_following,
+            'followers_count': user_to_follow.followers_count,
+            'action': action,
+            'username': username,
+        }
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse(context)
+        
+        next_url = request.POST.get('next') or request.META.get('HTTP_REFERER')
+        return redirect(next_url or 'home', username=username)
+    

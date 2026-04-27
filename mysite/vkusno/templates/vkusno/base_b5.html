@@ -64,13 +64,13 @@
     <header class="sticky-top py-3 shadow-sm header-blur">
         <div class="container">
           <div class="row justify-content-between">
-            <ul class="col-3 mb-2 d-flex flex-row list-unstyled">
+            <ul class="col-5 mb-2 d-flex flex-row p-0 list-unstyled">
               <li class="align-items-end me-4">
                 <a href="{% url 'home' %}" class="m-0 p-0 text-decoration-none">
                   <span class="logo-font text-mint fs-3">Оцени</span>
                 </a>
               </li>
-              <li class="d-flex align-items-end me-4"><a href="{% url 'about' %}" class="text-dark text-decoration-none m-0 p-0">О проекте</a></li>
+              <li class="d-flex align-items-end me-4"><a href="{% url 'about' %}" class="text-dark text-decoration-none text-nowrap m-0 p-0">О проекте</a></li>
             </ul>
             {% if user.is_authenticated %}
             
@@ -78,7 +78,7 @@
               <input type="search" class="form-control" placeholder="Поиск..." aria-label="Search" value="{{ search_query|default:'' }}" name="query">
             </form>
             
-            <div class="dropdown col-2 text-end">
+            <div class="dropdown col-2 text-end p-0">
               <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 {% if user.extenduser.avatar %}
                   <img src="{{ user.extenduser.avatar.url }} " alt="mdo" width="32" height="32" class="rounded-circle">

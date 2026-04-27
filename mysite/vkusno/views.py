@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
@@ -14,6 +16,7 @@ from django.contrib.auth import get_user_model
 
 # Create your views here.
 
+logger = logging.getLogger("django")
 
 class Index(LoginRequiredMixin, View):
     """ Index page reachable from / URL"""
@@ -78,6 +81,11 @@ class PublishCategory(LoginRequiredMixin, View):
                 return HttpResponseRedirect('/')
             else:
                 published_category.save()
+                logger.info(
+                    "SAVE category id=%s name=%s",
+                    userprofile.pk,
+                    category_name
+                )
         return HttpResponseRedirect('/')
     
 class UpdateCategory(LoginRequiredMixin, UpdateView):
@@ -129,11 +137,16 @@ class OtherProfile(View):
         params = dict()
         if request.user.username == username:
             return redirect('home')
-        userprofile = User.objects.get(username=username)
+        try:
+            userprofile = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return render(request, '404.html', params)  
         query = Q(user=userprofile)
         cards = product_card.objects.filter(query)
         categories_view = categories.objects.filter(query)
+        is_following = request.user.extenduser.is_following(userprofile.extenduser)
+        params['is_following'] = is_following
         params['cards'] = cards
-        params['profile'] = userprofile
+        params['profile'] = userprofile.extenduser
         params['categories'] = categories_view
-        return render(request, 'vkusno/other_profile.html', params)  
+        return render(request, 'vkusno/other_profile.html', params)

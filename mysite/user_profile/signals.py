@@ -16,13 +16,6 @@ from django.contrib.auth.signals import (
 User = get_user_model()
 logger = logging.getLogger("user_profile")
 
-# def get_fake_request(user):
-#     request = HttpRequest()
-#     current_site = Site.objects.get_current()
-#     request.META['HTTP_HOST'] = current_site.domain  # Например, 'example.com'
-#     request.user = user
-#     return request
-
 
 def _mask_identifier(value: str | None, max_visible: int = 2) -> str | None:
     """
