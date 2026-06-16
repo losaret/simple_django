@@ -3,6 +3,8 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - 'v*'
     paths-ignore:
       - '**.md'
       - 'docs/**'
@@ -63,8 +65,25 @@ jobs:
         tags: |
           type=raw,value=${{ steps.describe.outputs.tag }}
           type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+          type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+
         
         labels: |
           org.opencontainers.image.title=${{ github.repository }}
           org.opencontainers.image.version=${{ steps.describe.outputs.tag }}
           org.opencontainers.image.revision=${{ github.sha }}
+          org.opencontainers.image.created=${{ github.event.repository.updated_at }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./mysite
+        file: ./mysite/Dockerfile.prod
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        build-args: |
+          BUILD_VERSION=${{ github.sha }}
+          BUILD_DATE=${{ github.event.repository.updated_at }}
