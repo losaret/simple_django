@@ -15,6 +15,7 @@ Tiltfile
 #app ignore
 install.txt
 db/
+mediafiles/
 .env.dev
 .env.prod
 .env.prod.db

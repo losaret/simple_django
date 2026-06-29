@@ -10,10 +10,20 @@ def get_upload_path(instance, filename):
     return 'mediafiles/{0}/{1}'.format(instance.user, filename)
 
 class status(models.TextChoices):
+    """
+    Статус для карточки продукта
+    """
     vkusno = 'vk', 'vkusno'
     nevkusno = 'ne', 'nevkusno'
     
 class categories(models.Model):
+    """
+    Представляет категорию карточек, созданную пользователем.
+
+    Attributes:
+        name (CharField): Название категории (до 100 символов).
+        user (ForeignKey): Владелец категории (связь с моделью User).
+    """
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):

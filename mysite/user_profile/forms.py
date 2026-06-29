@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, get_user_model, password_validation
+
 from .models import ExtendUser
 from turnstile.fields import TurnstileField
 
@@ -12,6 +13,7 @@ reserved_names = [
     'api', 'admin', 'root', 'about', 'post_card', 'post_category', 'card', 'category',
     'search',
  ]
+
 
 class UserForm(forms.ModelForm):
     turnstile = TurnstileField()
@@ -33,6 +35,7 @@ class UserForm(forms.ModelForm):
                 'placeholder': "Фамилия",
             }),
         }
+
 
 class ExtendUserForm(forms.ModelForm):
     class Meta:
@@ -92,13 +95,13 @@ class RegistrationForm(forms.ModelForm):
             }),
         }
         
-
     def clean_username(self):
         username = self.cleaned_data.get("username")
         if username.lower() in reserved_names:
             raise ValidationError(
-                "username зарезервирован"
-            )
+               "username зарезервирован"
+           )
+        return username
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -136,5 +139,4 @@ class RegistrationForm(forms.ModelForm):
             if hasattr(self, "save_m2m"):
                 self.save_m2m()
         return user
-
 

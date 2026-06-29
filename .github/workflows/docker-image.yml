@@ -2,12 +2,14 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - '**'
     tags:
       - 'v*'
     paths-ignore:
       - '**.md'
       - 'docs/**'
+
   pull_request:
     branches: [ "main" ]
 
@@ -28,11 +30,43 @@ env:
 
 jobs:
 
-  build-and-deploy:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mysite
+    steps:
 
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: 'mysite/requirements.txt'
+      
+      - name: Install dependencies
+        run: |
+          echo "Установка зависимостей"
+          python -m pip install --upgrade pip
+          pip install pytest pytest-django
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          echo "Запуск pytest тестов"
+          pytest
+
+  build-and-deploy:
+    needs: tests
+    if: github.ref == 'refs/heads/main'
     name: Build, Push and Deploy
     runs-on: ubuntu-latest
-
     steps:
 
     - name: Checkout
@@ -66,8 +100,6 @@ jobs:
           type=raw,value=${{ steps.describe.outputs.tag }}
           type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
           type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-
-        
         labels: |
           org.opencontainers.image.title=${{ github.repository }}
           org.opencontainers.image.version=${{ steps.describe.outputs.tag }}

@@ -21,18 +21,19 @@ logger = logging.getLogger("django")
 class Index(LoginRequiredMixin, View):
     """ Index page reachable from / URL"""
     def get(self, request):
-        params = dict()
         userprofile = User.objects.filter(username=request.user.username).first()
         query = Q(user=userprofile)
         search_query = ''
         cards = product_card.objects.filter(query)
         categories_view = categories.objects.filter(query)
-        params['cards'] = cards
-        params['search_query'] = search_query
-        params['profile'] = userprofile
-        params['card_form'] = PublishCardForm()
-        params['category_form'] = PublishCategoryForm()
-        params['categories'] = categories_view
+        params = {
+            'cards': cards,
+            'search_query': search_query,
+            'profile': userprofile,
+            'card_form': PublishCardForm(),
+            'category_form': PublishCategoryForm(),
+            'categories': categories_view,
+        }
         return render(request, 'vkusno/self_profile.html', params)
     
 class PublishCard(LoginRequiredMixin, View):
