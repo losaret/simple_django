@@ -1,50 +1,65 @@
-from django.contrib.auth.models import User
 from django import forms
+from django.contrib.auth import password_validation
 from django.contrib.auth.forms import UsernameField
-from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.contrib.auth import authenticate, get_user_model, password_validation
-
-from .models import ExtendUser
+from django.utils.translation import gettext_lazy as _
 from turnstile.fields import TurnstileField
 
+from .models import ExtendUser
 
 reserved_names = [
-    'api', 'admin', 'root', 'about', 'post_card', 'post_category', 'card', 'category',
-    'search',
- ]
+    "api",
+    "admin",
+    "root",
+    "about",
+    "post_card",
+    "post_category",
+    "card",
+    "category",
+    "search",
+]
 
 
 class UserForm(forms.ModelForm):
     turnstile = TurnstileField()
+
     class Meta:
         model = User
         turnstile = TurnstileField()
-        fields = ['email', 'first_name', 'last_name', 'turnstile']
+        fields = ["email", "first_name", "last_name", "turnstile"]
         widgets = {
-            'email': forms.TextInput(attrs={
-                'class': "form-control",
-                'placeholder': "E-mail",
-            }),
-            'first_name': forms.TextInput(attrs={
-                'class': "form-control",
-                'placeholder': "Имя",
-            }),
-            'last_name': forms.TextInput(attrs={
-                'class': "form-control",
-                'placeholder': "Фамилия",
-            }),
+            "email": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "E-mail",
+                }
+            ),
+            "first_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Имя",
+                }
+            ),
+            "last_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Фамилия",
+                }
+            ),
         }
 
 
 class ExtendUserForm(forms.ModelForm):
     class Meta:
         model = ExtendUser
-        fields = ['avatar']
+        fields = ["avatar"]
         widgets = {
-            'avatar': forms.FileInput(attrs={
-            'class': 'form-control',
-        }),
+            "avatar": forms.FileInput(
+                attrs={
+                    "class": "form-control",
+                }
+            ),
         }
 
 
@@ -53,6 +68,7 @@ class RegistrationForm(forms.ModelForm):
     A form that creates a user, with no privileges, from the given username and
     password.
     """
+
     turnstile = TurnstileField()
     error_messages = {
         "password_mismatch": _("Пароль не совпадают."),
@@ -60,20 +76,26 @@ class RegistrationForm(forms.ModelForm):
     password1 = forms.CharField(
         label=_("Пароль"),
         strip=False,
-        widget=forms.PasswordInput(attrs={
-            "autocomplete": "new-password",
-            'class': "form-select m-2",
-            "style": "width: 300px;"            
-        }),
-        help_text=_("Пароль должен содержать более 8 символов и не быть полностью из чисел"),
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                "class": "form-select m-2",
+                "style": "width: 300px;",
+            }
+        ),
+        help_text=_(
+            "Пароль должен содержать более 8 символов и не быть полностью из чисел"
+        ),
     )
     password2 = forms.CharField(
         label=_("Подтвердите пароль"),
-        widget=forms.PasswordInput(attrs={
-            "autocomplete": "new-password",
-            'class': "form-select m-2",
-            "style": "width: 300px;"
-        }),
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                "class": "form-select m-2",
+                "style": "width: 300px;",
+            }
+        ),
         strip=False,
         help_text=_("Введите тот же пароль для верификации"),
     )
@@ -83,32 +105,34 @@ class RegistrationForm(forms.ModelForm):
         fields = ("username", "email")
         field_classes = {"username": UsernameField}
         widgets = {
-            'username': forms.TextInput(attrs={
-                'class': "form-control m-2",
-                'placeholder': "Логин",
-                "style": "width: 300px;"
-            }),
-            'email': forms.TextInput(attrs={
-                'class': "form-control m-2",
-                'placeholder': "Почта",
-                "style": "width: 300px;"
-            }),
+            "username": forms.TextInput(
+                attrs={
+                    "class": "form-control m-2",
+                    "placeholder": "Логин",
+                    "style": "width: 300px;",
+                }
+            ),
+            "email": forms.TextInput(
+                attrs={
+                    "class": "form-control m-2",
+                    "placeholder": "Почта",
+                    "style": "width: 300px;",
+                }
+            ),
         }
-        
+
     def clean_username(self):
         username = self.cleaned_data.get("username")
         if username.lower() in reserved_names:
-            raise ValidationError(
-               "username зарезервирован"
-           )
+            raise ValidationError("username зарезервирован")
         return username
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self._meta.model.USERNAME_FIELD in self.fields:
-            self.fields[self._meta.model.USERNAME_FIELD].widget.attrs[
-                "autofocus"
-            ] = True
+            self.fields[self._meta.model.USERNAME_FIELD].widget.attrs["autofocus"] = (
+                True
+            )
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -139,4 +163,3 @@ class RegistrationForm(forms.ModelForm):
             if hasattr(self, "save_m2m"):
                 self.save_m2m()
         return user
-

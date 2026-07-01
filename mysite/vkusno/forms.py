@@ -1,31 +1,41 @@
-from .models import product_card, categories
-from django.forms import ModelForm, TextInput, EmailInput, FileInput, CheckboxInput, Select, ValidationError
+from .models import ProductCard, Category
+from django.forms import (
+    ModelForm,
+    TextInput,
+    FileInput,
+    Select,
+)
 
-        
+
 class PublishCardForm(ModelForm):
     class Meta:
-        model = product_card
-        fields = {'card_image', 'comment', 'choice'}
+        model = ProductCard
+        fields = {"card_image", "comment", "choice"}
         widgets = {
-            'comment': TextInput(attrs={
-                'class': "form-control m-2",
-                'placeholder': "Название",
-            }),
-            'card_image': FileInput(attrs={
-                'class': "form-control m-2",
-            }), 
-            'choice': Select(attrs={
-                'class': "form-select m-2"
-            }),
+            "comment": TextInput(
+                attrs={
+                    "class": "form-control m-2",
+                    "placeholder": "Название",
+                }
+            ),
+            "card_image": FileInput(
+                attrs={
+                    "class": "form-control m-2",
+                }
+            ),
+            "choice": Select(attrs={"class": "form-select m-2"}),
         }
-        
-class PublishCategoryForm(ModelForm):         
+
+
+class PublishCategoryForm(ModelForm):
     class Meta:
-        model = categories
-        fields = {'name'}
+        model = Category
+        fields = {"name"}
         widgets = {
-            'name': TextInput(attrs={
-                'class': "form-control m-2",
-                'placeholder': "Название",
-            }),
+            "name": TextInput(
+                attrs={
+                    "class": "form-control m-2",
+                    "placeholder": "Название",
+                }
+            ),
         }

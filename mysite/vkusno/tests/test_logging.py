@@ -12,7 +12,6 @@ class LoggingTestCase(TestCase):
             logger.info("Test info message")
             logger.warning("Test warning message")
             
-        # Проверяем, что логи были записаны
         self.assertEqual(len(cm.output), 2)
         self.assertIn('Test info message', cm.output[0])
         self.assertIn('Test warning message', cm.output[1])
